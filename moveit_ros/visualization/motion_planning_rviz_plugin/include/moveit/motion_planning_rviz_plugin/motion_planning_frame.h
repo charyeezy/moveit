@@ -33,6 +33,7 @@
  *********************************************************************/
 
 /* Author: Ioan Sucan */
+/* Modified: Charlene Leong*/
 
 #ifndef MOVEIT_MOTION_PLANNING_RVIZ_PLUGIN_MOTION_PLANNING_FRAME_
 #define MOVEIT_MOTION_PLANNING_RVIZ_PLUGIN_MOTION_PLANNING_FRAME_
@@ -290,6 +291,9 @@ private:
   ros::Subscriber update_goal_state_subscriber_;
   ros::Subscriber update_custom_start_state_subscriber_;
   ros::Subscriber update_custom_goal_state_subscriber_;
+  ros::Subscriber update_start_state_RobotState_subscriber_;
+  ros::Subscriber update_goal_state_RobotState_subscriber_;
+  
   // General
   void changePlanningGroupHelper();
   void importResource(const std::string& path);
@@ -302,6 +306,8 @@ private:
   void remoteUpdateGoalStateCallback(const std_msgs::EmptyConstPtr& msg);
   void remoteUpdateCustomStartStateCallback(const moveit_msgs::RobotStateConstPtr& msg);
   void remoteUpdateCustomGoalStateCallback(const moveit_msgs::RobotStateConstPtr& msg);
+  void remoteUpdateStartStateRobotStateCallback(const moveit_msgs::RobotStateConstPtr& msg);
+  void remoteUpdateGoalStateRobotStateCallback(const moveit_msgs::RobotStateConstPtr& msg);
 
   /* Selects or unselects a item in a list by the item name */
   void setItemSelectionInList(const std::string& item_name, bool selection, QListWidget* list);

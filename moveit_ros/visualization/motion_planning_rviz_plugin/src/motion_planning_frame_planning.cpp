@@ -487,4 +487,36 @@ void MotionPlanningFrame::remoteUpdateCustomGoalStateCallback(const moveit_msgs:
     }
   }
 }
+
+void MotionPlanningFrame::remoteUpdateStartStateRobotStateCallback(const moveit_msgs::RobotStateConstPtr& msg)
+{
+  moveit_msgs::RobotState msg_no_attached(*msg);
+  if (move_group_ && planning_display_)
+  {
+    planning_display_->waitForCurrentRobotState();
+    const planning_scene_monitor::LockedPlanningSceneRO& ps = planning_display_->getPlanningSceneRO();
+    if (ps)
+    {
+      robot_state::RobotStatePtr state(new robot_state::RobotState(ps->getCurrentState()));
+      robot_state::robotStateMsgToRobotState(ps->getTransforms(), msg_no_attached, *state);
+      planning_display_->setQueryStartState(*state);
+    }
+  }
+}
+
+ void MotionPlanningFrame::remoteUpdateGoalStateRobotStateCallback(const moveit_msgs::RobotStateConstPtr& msg)
+{
+  moveit_msgs::RobotState msg_no_attached(*msg);
+  if (move_group_ && planning_display_)
+  {
+    planning_display_->waitForCurrentRobotState();
+    const planning_scene_monitor::LockedPlanningSceneRO& ps = planning_display_->getPlanningSceneRO();
+    if (ps)
+    {
+      robot_state::RobotStatePtr state(new robot_state::RobotState(ps->getCurrentState()));
+      robot_state::robotStateMsgToRobotState(ps->getTransforms(), msg_no_attached, *state);
+      planning_display_->setQueryGoalState(*state);
+    }
+  }
+}
 }
